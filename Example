@@ -1,0 +1,278 @@
+--[[
+    BlackWhite UI Library - Example Script
+    Загрузка: loadstring(game:HttpGet("URL_TO_LIBRARY"))()
+]]
+
+-- Локальная загрузка (если файл рядом):
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/YOUR/REPO/main/Library.lua"))()
+
+-- ──────────────────────────────────────────────
+--  Создание окна
+-- ──────────────────────────────────────────────
+local Window = Library:CreateWindow({
+    Title      = "BlackWhite",
+    Size       = UDim2.fromOffset(580, 460),
+    Executor   = "Solara",           -- Имя исполнителя в ватермарке
+    ToggleKey  = Enum.KeyCode.RightShift,  -- Кнопка скрыть/показать UI
+})
+
+-- ──────────────────────────────────────────────
+--  Вкладка: Legit
+-- ──────────────────────────────────────────────
+local Legit = Window:CreateTab("Legit")
+
+Legit:CreateSection("Aimbot")
+
+local aimToggle = Legit:CreateToggle({
+    Name         = "Enable Aimbot",
+    CurrentValue = false,
+    Id           = "aimbot_enabled",
+    Callback     = function(v)
+        print("Aimbot:", v)
+    end
+})
+
+local fovSlider = Legit:CreateSlider({
+    Name         = "FOV",
+    MinValue     = 10,
+    MaxValue     = 360,
+    CurrentValue = 90,
+    Suffix       = "°",
+    Id           = "aimbot_fov",
+    Callback     = function(v)
+        print("FOV set to:", v)
+    end
+})
+
+local smoothSlider = Legit:CreateSlider({
+    Name         = "Smoothness",
+    MinValue     = 1,
+    MaxValue     = 100,
+    CurrentValue = 50,
+    Suffix       = "%",
+    Id           = "aimbot_smooth",
+    Callback     = function(v)
+        print("Smooth:", v)
+    end
+})
+
+local aimKey = Legit:CreateKeybind({
+    Name     = "Aim Key",
+    Default  = Enum.KeyCode.C,
+    Id       = "aimbot_key",
+    Callback = function(key)
+        print("Aim key:", key)
+    end
+})
+
+Legit:CreateSection("Target")
+
+local targetDrop = Legit:CreateDropdown({
+    Name          = "Target Part",
+    Options       = { "Head", "Torso", "Random" },
+    CurrentOption = "Head",
+    Id            = "aimbot_part",
+    Callback      = function(v)
+        print("Target part:", v)
+    end
+})
+
+-- ──────────────────────────────────────────────
+--  Вкладка: HVH
+-- ──────────────────────────────────────────────
+local HVH = Window:CreateTab("HVH")
+
+HVH:CreateSection("Anti-Aim")
+
+HVH:CreateToggle({
+    Name         = "Anti-Aim",
+    CurrentValue = false,
+    Id           = "hvh_antiaim",
+    Callback     = function(v) print("Anti-Aim:", v) end
+})
+
+HVH:CreateDropdown({
+    Name          = "Pitch",
+    Options       = { "Down", "Up", "Zero", "Random" },
+    CurrentOption = "Down",
+    Id            = "hvh_pitch",
+    Callback      = function(v) print("Pitch:", v) end
+})
+
+HVH:CreateDropdown({
+    Name          = "Yaw",
+    Options       = { "Spin", "Jitter", "Static", "Random" },
+    CurrentOption = "Spin",
+    Id            = "hvh_yaw",
+    Callback      = function(v) print("Yaw:", v) end
+})
+
+HVH:CreateSection("Resolver")
+
+HVH:CreateToggle({
+    Name         = "Resolver",
+    CurrentValue = true,
+    Id           = "hvh_resolver",
+    Callback     = function(v) print("Resolver:", v) end
+})
+
+-- ──────────────────────────────────────────────
+--  Вкладка: Visuals
+-- ──────────────────────────────────────────────
+local Visuals = Window:CreateTab("Visuals")
+
+Visuals:CreateSection("ESP")
+
+Visuals:CreateToggle({
+    Name         = "Player ESP",
+    CurrentValue = false,
+    Id           = "esp_players",
+    Callback     = function(v) print("Player ESP:", v) end
+})
+
+Visuals:CreateToggle({
+    Name         = "Box ESP",
+    CurrentValue = false,
+    Id           = "esp_box",
+    Callback     = function(v) print("Box ESP:", v) end
+})
+
+Visuals:CreateToggle({
+    Name         = "Health Bar",
+    CurrentValue = false,
+    Id           = "esp_health",
+    Callback     = function(v) print("Health Bar:", v) end
+})
+
+local espColor = Visuals:CreateColorPicker({
+    Name         = "ESP Color",
+    CurrentColor = Color3.fromRGB(255, 255, 255),
+    Id           = "esp_color",
+    Callback     = function(c) print("ESP Color:", c) end
+})
+
+Visuals:CreateSection("Chams")
+
+Visuals:CreateToggle({
+    Name         = "Chams",
+    CurrentValue = false,
+    Id           = "chams_enabled",
+    Callback     = function(v) print("Chams:", v) end
+})
+
+Visuals:CreateDropdown({
+    Name          = "Chams Material",
+    Options       = { "Flat", "Neon", "Glass", "ForceField" },
+    CurrentOption = "Flat",
+    Id            = "chams_material",
+    Callback      = function(v) print("Chams material:", v) end
+})
+
+Visuals:CreateSection("World")
+
+Visuals:CreateToggle({
+    Name         = "Fullbright",
+    CurrentValue = false,
+    Id           = "world_fullbright",
+    Callback     = function(v)
+        game:GetService("Lighting").Brightness = v and 10 or 1
+    end
+})
+
+Visuals:CreateSlider({
+    Name         = "FOV Circle",
+    MinValue     = 0,
+    MaxValue     = 360,
+    CurrentValue = 90,
+    Suffix       = "°",
+    Id           = "world_fovcircle",
+    Callback     = function(v) print("FOV Circle:", v) end
+})
+
+-- ──────────────────────────────────────────────
+--  Вкладка: Misc
+-- ──────────────────────────────────────────────
+local Misc = Window:CreateTab("Misc")
+
+Misc:CreateSection("Movement")
+
+Misc:CreateToggle({
+    Name         = "Bunny Hop",
+    CurrentValue = false,
+    Id           = "misc_bhop",
+    Callback     = function(v) print("BHop:", v) end
+})
+
+Misc:CreateToggle({
+    Name         = "Speed Hack",
+    CurrentValue = false,
+    Id           = "misc_speed",
+    Callback     = function(v) print("Speed:", v) end
+})
+
+Misc:CreateSlider({
+    Name         = "Walk Speed",
+    MinValue     = 16,
+    MaxValue     = 200,
+    CurrentValue = 16,
+    Id           = "misc_walkspeed",
+    Callback     = function(v)
+        local char = game.Players.LocalPlayer.Character
+        if char then
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            if hum then hum.WalkSpeed = v end
+        end
+    end
+})
+
+Misc:CreateSlider({
+    Name         = "Jump Power",
+    MinValue     = 50,
+    MaxValue     = 500,
+    CurrentValue = 50,
+    Id           = "misc_jumppower",
+    Callback     = function(v)
+        local char = game.Players.LocalPlayer.Character
+        if char then
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            if hum then hum.JumpPower = v end
+        end
+    end
+})
+
+Misc:CreateSection("Utilities")
+
+Misc:CreateButton({
+    Name     = "Rejoin Server",
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
+    end
+})
+
+Misc:CreateButton({
+    Name     = "Copy Game ID",
+    Callback = function()
+        setclipboard(tostring(game.PlaceId))
+        Library:Notify({ Title = "Copied!", Content = "Game ID: " .. game.PlaceId })
+    end
+})
+
+Misc:CreateTextbox({
+    Name            = "Custom Tag",
+    PlaceholderText = "Enter tag...",
+    Callback        = function(v) print("Tag set:", v) end
+})
+
+-- Конфиг панель в Misc
+Misc:CreateConfigPanel()
+
+-- ──────────────────────────────────────────────
+--  Начальное уведомление
+-- ──────────────────────────────────────────────
+task.delay(0.8, function()
+    Library:Notify({
+        Title   = "BlackWhite Loaded",
+        Content = "Welcome, " .. game.Players.LocalPlayer.Name .. "!",
+        Duration = 4,
+    })
+end)
